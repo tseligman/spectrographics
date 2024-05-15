@@ -1,2 +1,2 @@
-# spectrographics
-Converting images to spectrograms
+# Spectrographics
+Converting images to spectrograms!
