@@ -1,3 +1,5 @@
+import argparse
+
 import numpy as np
 from PIL import Image
 from scipy.io import wavfile
@@ -59,12 +61,16 @@ def log_lerp(t, a, b):
 	return 10.0 ** lerp(t, np.log10(a), np.log10(b))
 
 
+parser = argparse.ArgumentParser(description="Converts an image to a spectrogram.")
+parser.add_argument("file", help="the path to the image to convert")
+filename = parser.parse_args().file
+im = Image.open(filename).convert("L")
+
 print("Building image...")
 msg = Signal()
 dur = 10  # seconds
 low = 24000  # Hz
 high = Signal.rate//2 - 1000  # Hz
-im = Image.open("sources/bird.png").convert("L")
 for x in range(im.width):
 	for y in range(im.height):
 		freq = lerp(y/im.height, high, low)
@@ -74,5 +80,5 @@ for x in range(im.width):
 		msg.insert(amp * Signal.sine(freq, dur/im.width), t)
 		
 print("Writing output...")
-msg.write("output.wav")
+msg.write(filename + ".wav")
 print(f"** Generated {dur} sec of audio between {low} Hz and {high} Hz")
