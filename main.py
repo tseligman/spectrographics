@@ -62,7 +62,7 @@ dur = 10  # seconds
 low = 24000  # Hz
 high = Signal.rate//2 - 1000  # Hz
 
-parser = argparse.ArgumentParser(description=f"Converts an image to a spectrogram. The output audio will lie at {low} Hz and above and last {dur} sec.")
+parser = argparse.ArgumentParser(description=f"Converts an image to a spectrogram. The output audio will be at {Signal.rate} samp/sec, lie between {low}-{high} Hz, and last {dur} sec.")
 parser.add_argument("file", help="the path to the image to convert")
 filename = parser.parse_args().file
 im = Image.open(filename).convert("L")
