@@ -11,9 +11,6 @@ class Signal:
 	def __init__(self, samples=np.empty(0, np.float32)):
 		self.samples = np.float32(samples)
 
-	def __len__(self):
-		return len(self.samples)
-
 	def __iadd__(self, other):
 		self.insert(other, 0)
 		return self
@@ -33,14 +30,14 @@ class Signal:
 	def expand(self, length):
 		# length is in samples
 		# Might expand the internal sample array, but never shrinks it
-		if length > len(self):
-			self.samples = np.pad(self.samples, (0, length-len(self)))
+		if length > len(self.samples):
+			self.samples = np.pad(self.samples, (0, length-len(self.samples)))
 		return len(self.samples)
 
 	def insert(self, other, t):
 		# t is in seconds
 		a = int(t * Signal.rate)
-		b = a + len(other)
+		b = a + len(other.samples)
 		self.expand(b)
 		self.samples[a:b] += other.samples
 
