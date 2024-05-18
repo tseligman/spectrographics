@@ -58,16 +58,17 @@ def log_lerp(t, a, b):
 	return 10.0 ** lerp(t, np.log10(a), np.log10(b))
 
 
-parser = argparse.ArgumentParser(description="Converts an image to a spectrogram.")
+dur = 10  # seconds
+low = 24000  # Hz
+high = Signal.rate//2 - 1000  # Hz
+
+parser = argparse.ArgumentParser(description=f"Converts an image to a spectrogram. The output audio will lie at {low} Hz and above and last {dur} sec.")
 parser.add_argument("file", help="the path to the image to convert")
 filename = parser.parse_args().file
 im = Image.open(filename).convert("L")
 
 print("Building image...")
 msg = Signal()
-dur = 10  # seconds
-low = 24000  # Hz
-high = Signal.rate//2 - 1000  # Hz
 for x in range(im.width):
 	for y in range(im.height):
 		freq = lerp(y/im.height, high, low)
