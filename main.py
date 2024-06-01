@@ -74,7 +74,7 @@ for x in range(im.width):
 		freq = lerp(y/im.height, high, low)
 		t = lerp(x/im.width, 0, dur)
 		px = im.getpixel((x, y))
-		amp = log_lerp(px/255, 1e-5, 5e-3) * (1 if y%2 else -1)
+		amp = log_lerp(px/255, 1e-5, 5e-3) * (1 if y%2 else -1)  # Switch up the phases to mitigate annoying little interference effects
 		msg.insert(amp * Signal.sine(freq, dur/im.width), t)
 		
 print("Writing output...")
